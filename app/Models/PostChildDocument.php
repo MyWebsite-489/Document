@@ -20,11 +20,16 @@ class PostChildDocument extends Model
      */
     protected $fillable = [
         'id',
+        'topic_document_id',
         'name',
         'description',
         'content',
         'status',
         'created_at',
         'updated_at',
+    ];
+    const STATUS = [
+        1 => STATUS_PUBLISH,
+        2 => STATUS_DRAFT,
     ];
 }

@@ -1,4 +1,4 @@
-<div class="modal fade" id="update-topic-modal" tabindex="-1" role="dialog" aria-labelledby="update-topic-label"
+<div class="modal fade" id="update-topic-document-modal" tabindex="-1" role="dialog" aria-labelledby="update-topic-label"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="update-topic" novalidate enctype="multipart/form-data" method="POST">
+            <form id="update-topic-document" novalidate enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
@@ -28,20 +28,11 @@
                         </p>
                     </div>
                     <div class="form-group">
-                        <label>Mô tả<code>*</code></label>
-                        <textarea id="description-topic" class="form-control" rows="3" placeholder="Mô tả ngắn"
-                            name="description">{{ old('description') }}</textarea>
-                        <p>
-                            <small id="description-update-msg-err" class="text-danger">
-                            </small>
-                        </p>
-                    </div>
-                    <div class="form-group">
                         <label>Trạng thái<code>*</code></label>
                         <div class="widget-body">
                             <div class="ui-select-wrapper form-group">
                                 <select class="form-control" id="status-topic" name="status">
-                                    @foreach (\App\Models\Topic::STATUS as $key => $status)
+                                    @foreach (\App\Models\TopicDocument::STATUS as $key => $status)
                                         <option value="{{ $key }}"
                                             {{ old('status') == $key ? 'selected' : '' }}>
                                             {{ $status }}
@@ -52,29 +43,6 @@
                                     <small id="status-update-msg-err" class="text-danger">
                                     </small>
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Thumbnail</label>
-                        <div class="widget-body">
-                            <div class="image-box">
-                                <input type="hidden" name="thumbnail" class="image-data">
-                                <div class="preview-image-wrapper ">
-                                    <img id="thumbnail-topic" src="{{ asset('assets/images/placeholder.png') }}"
-                                        alt="Preview image" class="preview_image" width="150">
-                                    <a class="btn_remove_image" title="Remove image">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                                <div class="image-box-actions">
-                                    <input type="file" accept="image/png, image/gif, image/jpeg"
-                                        class="btn_gallery d-none" name="thumbnail">
-                                    <p>
-                                        <small id="thumbnail-update-msg-err" class="text-danger">
-                                        </small>
-                                    </p>
-                                </div>
                             </div>
                         </div>
                     </div>

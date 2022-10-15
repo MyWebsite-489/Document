@@ -51,34 +51,24 @@ $(function () {
         });
     });
 
-    $("#update-topic").submit(function (e) {
+    $("#update-topic-document").submit(function (e) {
         e.preventDefault();
         let form = $(this).serializeArray();
         let topicId = $("#id-topic").val();
         $("#name-update-msg-err").html("");
-        $("#description-update-msg-err").html("");
         $("#status-update-msg-err").html("");
-        $("#thumbnail-update-msg-err").html("");
         $("#alert-msg-err").html("");
         const formData = new FormData();
 
         form.forEach((item) => {
             if (item.value) {
-                if (item.name === "thumbnail") {
-                    formData.append(
-                        item.name,
-                        $("input[type=file]")[0].files[0] || ""
-                    );
-                } else {
-                    formData.append(item.name, item.value || "");
-                }
+                formData.append(item.name, item.value || "");
             }
         });
-        formData.append("id", topicId);
 
         $.ajax({
             method: "POST",
-            url: "/admin/topic/update",
+            url: `/admin/topic-document/${topicId}/update`,
             data: formData,
             processData: false,
             contentType: false,
@@ -141,7 +131,7 @@ $(document).ready(function () {
 function getTopicDocumentDetail(id) {
     $.ajax({
         method: "GET",
-        url: `/admin/topic/detail/${id}`,
+        url: `/admin/topic-document/${id}/edit`,
         processData: false,
         contentType: false,
         cache: false,
@@ -150,14 +140,7 @@ function getTopicDocumentDetail(id) {
                 const topicData = data.topic;
                 $("#id-topic").val(topicData.id);
                 $("#name-topic").val(topicData.name);
-                $("#description-topic").val(topicData.description);
                 $("#status-topic").val(topicData.status);
-                $("#thumbnail-topic").attr(
-                    "src",
-                    topicData.thumbnail
-                        ? document.location.origin + "/" + topicData.thumbnail
-                        : "/assets/images/placeholder.png"
-                );
             }
         },
         error: (response) => {
@@ -181,7 +164,7 @@ function openDeleteModal(id, name) {
 
 function confirmDelete(id) {
     $.ajax({
-        url: `/admin/topic/delete/${id}`,
+        url: `/admin/topic-document/${id}/delete`,
         method: "DELETE",
         processData: false,
         contentType: false,

@@ -26,4 +26,5 @@ class TopicDocument extends Model
         1 => STATUS_PUBLISH,
         2 => STATUS_DRAFT,
     ];
+
 }

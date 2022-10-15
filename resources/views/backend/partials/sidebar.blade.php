@@ -90,7 +90,7 @@
                     </ul>
                 </li>
                 @php
-                    $subMenuTopicDocument = ['admin.topic-document.index', 'admin.post.posts', 'admin.post.create', 'admin.post.edit'];
+                    $subMenuTopicDocument = ['admin.topic-document.index', 'admin.post-child.index', 'admin.post-child.create', 'admin.post-child.edit'];
                 @endphp
                 <li class="nav-item has-treeview {{ \App\Helpers\Common::setTreeViewOpen($subMenuTopicDocument) }}">
                     <a href="" class="nav-link {{ \App\Helpers\Common::setActive($subMenuTopicDocument) }}">
@@ -108,16 +108,16 @@
                                 <p>Tài liệu</p>
                             </a>
                         </li>
-{{--                        @php--}}
-{{--                            $nameTopicChildDocument = ['admin.post.posts', 'admin.post.create', 'admin.post.edit'];--}}
-{{--                        @endphp--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="{{ route('admin.post.posts') }}"--}}
-{{--                               class="nav-link {{ \App\Helpers\Common::setActive($nameTopicChildDocument) }}">--}}
-{{--                                <i class="fa fa-clipboard nav-icon"></i>--}}
-{{--                                <p>Bài viết</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
+                        @php
+                            $nameTopicChildDocument = ['admin.post-child.index', 'admin.post-child.create', 'admin.post-child.edit'];
+                        @endphp
+                        <li class="nav-item">
+                            <a href="{{ route('admin.post-child.index') }}"
+                               class="nav-link {{ \App\Helpers\Common::setActive($nameTopicChildDocument) }}">
+                                <i class="fa fa-clipboard nav-icon"></i>
+                                <p>Bài viết</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>

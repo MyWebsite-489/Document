@@ -42,8 +42,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'BackEnd','m
     Route::group(['prefix' => 'topic-document', 'as' => 'topic-document.'], function () {
         Route::get('/index', 'TopicDocumentController@index')->name('index');
         Route::post('/store', 'TopicDocumentController@store')->name('store');
-//        Route::get('/detail/{id}', 'TopicController@detail')->name('detail');
-//        Route::post('/update', 'TopicController@update')->name('update');
-//        Route::delete('/delete/{id}', 'TopicController@destroy')->name('destroy');
+        Route::get('/{id}/edit', 'TopicDocumentController@edit')->name('edit');
+        Route::post('/{id}/update', 'TopicDocumentController@update')->name('update');
+        Route::delete('/{id}/delete', 'TopicDocumentController@destroy')->name('destroy');
+    });
+
+    Route::group(['prefix' => 'post-child', 'as' => 'post-child.'], function () {
+        Route::get('/index', 'PostChildDocumentController@index')->name('index');
+        Route::get('/create', 'PostChildDocumentController@create')->name('create');
+        Route::post('/store', 'PostChildDocumentController@store')->name('store');
+        Route::get('/{id}/edit', 'PostChildDocumentController@edit')->name('edit');
+        Route::post('/{id}/update', 'PostChildDocumentController@update')->name('update');
+        Route::delete('/{id}/delete', 'PostChildDocumentController@destroy')->name('destroy');
     });
 });
