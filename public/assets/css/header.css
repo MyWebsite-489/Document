@@ -1,0 +1,221 @@
+.site-header {
+    background-color: transparent;
+    width: 100%;
+    z-index: 99;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    min-height: 70px;
+
+}
+
+.site-header ul {
+    list-style: none;
+    padding: 0;
+}
+
+.site-header .menu-header {
+    justify-content: flex-end;
+    display: flex;
+    height: 100%;
+}
+
+.site-header .menu-wrap {
+    margin: 0 -8px;
+    align-items: flex-end;
+    display: flex;
+}
+
+.site-header .menu-lv1 {
+    font-weight: bold;
+    position: relative;
+    font-size: 15px;
+    padding: 0 8px;
+    align-items: center;
+    display: flex;
+    line-height: 30px;
+}
+
+.site-header .menu-lv1>a {
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.site-header .menu-lv1.active>a,
+.site-header .menu-lv1:hover>a {
+    color: #c7572b;
+}
+
+.site-header .menu-lv-2 {
+    display: none;
+    position: absolute;
+    z-index: 9;
+    background-color: #fff;
+    padding: 0 15px;
+    box-shadow: 0px 13px 17.64px 0.36px rgba(0, 0, 0, 0.18);
+    top: 100%;
+}
+
+.site-header .menu-lv1:hover .menu-lv-2 {
+    display: block;
+}
+
+.site-header .menu-lv-2>li {
+    padding: 10px 0;
+    width: 170px;
+}
+
+.site-header .menu-lv-2>li:not(:last-child) {
+    border-bottom: 1px dashed #000;
+}
+
+.site-header .menu-lv-2>li.active>a,
+.site-header .menu-lv-2>li:hover>a {
+    color: #c7572b;
+}
+
+.site-header .header-multi-language {
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-align: center;
+    margin-left: 20px;
+    width: 52px;
+    height: 33px;
+    font-size: 15px;
+}
+
+.site-header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* -webkit-animation: ctFadeInDown 900ms ease-in-out;
+    -moz-animation: ctFadeInDown 900ms ease-in-out;
+    -ms-animation: ctFadeInDown 900ms ease-in-out;
+    animation: ctFadeInDown 900ms ease-in-out; */
+    padding: 5px 0;
+    background-image: linear-gradient(to right, #43cea2, #185a9d) !important;
+    box-shadow: 0 3px 5px 0 #9c9c9c44;
+}
+
+@-webkit-keyframes ctFadeInDown {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+.ctFadeInDown {
+    -webkit-animation-name: ctFadeInDown;
+    animation-name: ctFadeInDown;
+}
+
+.site-header .logo-header {
+    max-width: 160px;
+    float: left;
+}
+
+.site-header .logo-header img {
+    width: 100%;
+}
+
+.site-header.fixed .logo-header {
+    max-width: 150px;
+}
+
+.site-header .main-menu {
+    height: 100%;
+}
+
+.menu-mb {
+    display: none;
+}
+
+.mean-menu-mb {
+    background-color: #fff;
+    width: 100%;
+    left: -100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    transition: transform 0.5s;
+    z-index: 99;
+}
+
+.mean-menu-mb.show {
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+}
+
+.close-mb-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 24px;
+    padding: 8px;
+    z-index: 99;
+}
+
+.mean-menu-wrap .menu-mb-lv1 {
+    text-align: center;
+    font-size: 17px;
+    font-family: "Lato Bold";
+    text-transform: uppercase;
+    position: relative;
+    border-bottom: 1px solid #ededed;
+}
+
+.mean-menu-wrap .menu-mb-lv1 a {
+    padding: 15px 0;
+    display: block;
+}
+
+.mean-menu-wrap .menu-mb-lv1.has-child:after {
+    content: "\f107";
+    display: inline-block;
+    font: normal normal normal 25px/1 FontAwesome;
+    position: absolute;
+    right: 15px;
+    top: 12px;
+}
+
+.mean-menu-wrap .menu-mb-lv1.has-child.show:after {
+    content: "\f106";
+}
+
+.mean-menu-wrap .menu-mb-lv2 {
+    background-color: rgb(249, 249, 249);
+    padding: 0 15px;
+    display: none;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+@media (max-width: 992px) {
+    .main-menu {
+        display: none;
+    }
+
+    .menu-mb {
+        display: block;
+        position: relative;
+    }
+
+    .icon-bar {
+        font-size: 30px;
+        float: right;
+    }
+}

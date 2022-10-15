@@ -1,0 +1,39 @@
+button:focus,
+a:focus{
+    outline: none;
+}
+
+
+/*custom select2*/
+.content-wrapper>.content{
+    padding-bottom: 1rem;
+}
+span.select2-selection.select2-selection--single {
+    outline: none;
+}
+
+/*custom style form validate*/
+p.is-invalid{
+    margin: 5px 0 0;
+    font-size: 12px;
+}
+select.form-control.is-invalid{
+    padding-right: 2.5rem;
+    background-position: right calc(1em + .1875rem) center;
+}
+
+/*custom sweetalert*/
+.swal-footer {
+    text-align: center;
+}
+
+
+/*common*/
+.form-control.control-datetime[type="text"]{
+    background-image: url("/images/icon/icon-calendar.png");
+    background-repeat: no-repeat;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+    background-position: right calc(0.375em + .1875rem) center;
+}
+
+
