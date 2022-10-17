@@ -32,4 +32,8 @@ class PostChildDocument extends Model
         1 => STATUS_PUBLISH,
         2 => STATUS_DRAFT,
     ];
+    public function topicDocument()
+    {
+        return $this->belongsTo(TopicDocument::class);
+    }
 }

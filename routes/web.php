@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'FrontEnd'], function () {
     Route::get('/', 'HomePageController@index')->name('homePage.index');
-    Route::get('/document', 'DocumentController@index')->name('document.index');
+    Route::get('/document/{id}', 'DocumentController@index')->name('document.index');
     Route::post('/lien-he', 'HomePageController@createContact')->name('homePage.createContact');
 
     Route::get('/tin-tuc', 'NewsListController@index')->name('newslist.index');

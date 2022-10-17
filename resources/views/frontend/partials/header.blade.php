@@ -17,7 +17,7 @@
                                     <a href="{{ route('newslist.index') }}" class="">TIN TỨC</a>
                                 </li>
                                 <li class="menu-mb-lv1">
-                                    <a href="{{ route('document.index') }}" class="">TÀI LIỆU</a>
+                                    <a href="{{ route('document.index', ['id' => 0]) }}" class="">TÀI LIỆU</a>
                                 </li>
                                 <li class="menu-mb-lv1">
                                     <a href="#box-contact" class="scroll-box-contact">LIÊN HỆ</a>
@@ -36,7 +36,7 @@
                                 <a href="{{ route('newslist.index') }}" class="">TIN TỨC</a>
                             </li>
                             <li class="menu-lv1">
-                                <a href="{{ route('document.index') }}" class="">TÀI LIỆU</a>
+                                <a href="{{ route('document.index', ['id' => 0]) }}" class="">TÀI LIỆU</a>
                             </li>
                             <li class="menu-lv1">
                                 <a href="#" class="contact-box">LIÊN HỆ</a>

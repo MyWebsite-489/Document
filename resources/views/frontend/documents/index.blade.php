@@ -17,7 +17,9 @@
 
         <!-- Main content -->
         <section class="content">
-
+            @if(isset($postContent))
+                {!! $postContent->content !!}
+            @endif
         </section>
         <!-- /.content -->
     </div>

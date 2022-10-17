@@ -26,5 +26,8 @@ class TopicDocument extends Model
         1 => STATUS_PUBLISH,
         2 => STATUS_DRAFT,
     ];
-
+    public function postChidDocument()
+    {
+        return $this->hasMany(PostChildDocument::class, 'topic_document_id');
+    }
 }

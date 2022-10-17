@@ -15,13 +15,17 @@ class CreateTablePostChildDocumentsTable extends Migration
     {
         Schema::create('post_child_documents', function (Blueprint $table) {
             $table->bigIncrements("id");
-            $table->bigInteger("topic_document_id");
+            $table->unsignedBigInteger("topic_document_id");
             $table->string('name', 120);
             $table->string('description', 255);
             $table->longText('content');
             $table->integer('status');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('topic_document_id')
+                ->references('id')
+                ->on('topic_documents')
+                ->onDelete('cascade');
         });
     }
 
