@@ -32,7 +32,7 @@ class PostController extends Controller
             ->with('topics')
             ->where('name', 'LIKE', '%' . $request->search . '%')
             ->orderBy('created_at', 'DESC')
-            ->paginate(DEFAULT_PAGINATE);
+            ->paginate(10);
         return view('backend.post.index', compact('posts'));
     }
 

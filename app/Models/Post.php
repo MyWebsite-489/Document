@@ -48,8 +48,8 @@ class Post extends Model
         'updated_at',
     ];
     const STATUS = [
-        STATUS_PUBLISH => STATUS_PUBLISH,
-        STATUS_DRAFT => STATUS_DRAFT,
+        'publish' => 'publish',
+        'draft' => 'draft',
     ];
 
     public function topics()

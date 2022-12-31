@@ -18,8 +18,8 @@ class UserTableSeeder extends Seeder
             'email' => "admin@gmail.com",
             'password' => bcrypt('12345678'),
             'fullname' => "Admin",
-            'role' => ROLE_ADMIN,
-            'status' => STATUS_PUBLISH
+            'role' => "admin",
+            'status' => 'publish'
         ]);
     }
 }

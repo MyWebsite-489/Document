@@ -19,7 +19,7 @@ class CreateContactsTable extends Migration
             $table->string('phone', 120)->nullable();
             $table->string('email', 120)->nullable();
             $table->longText('content')->nullable();
-            $table->enum('status', [STATUS_PROCESSED, STATUS_PROCESSING, STATUS_UNPROCESSED]);
+            $table->enum('status', ['Processed', 'Processing', 'Unprocessed']);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -26,7 +26,7 @@ class SlidersController extends Controller
         $sliders = Slider::select('id', 'name', 'href', 'description', 'thumbnail', 'status', 'created_at')
             ->where('name', 'LIKE', '%' . $request->search . '%')
             ->orderBy('created_at', 'DESC')
-            ->paginate(DEFAULT_PAGINATE);
+            ->paginate(10);
         return view('backend.sliders.index', compact('sliders'));
     }
 

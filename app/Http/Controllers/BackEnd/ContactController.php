@@ -31,7 +31,7 @@ class ContactController extends Controller
         )
             ->where('fullname', 'LIKE', '%' . $request->search . '%')
             ->orderBy('created_at', 'DESC')
-            ->paginate(DEFAULT_PAGINATE);
+            ->paginate(10);
         return view('backend.contact.index', compact('contacts'));
     }
 }

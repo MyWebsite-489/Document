@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->longText('content');
             $table->string('thumbnail', 255);
             $table->integer('number_view')->default(0);
-            $table->enum('status', [STATUS_PUBLISH, STATUS_DRAFT]);
+            $table->enum('status', ['publish', 'draft']);
             $table->timestamps();
             $table->softDeletes();
         });

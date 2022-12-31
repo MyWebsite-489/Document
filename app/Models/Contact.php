@@ -44,8 +44,8 @@ class Contact extends Model
     ];
 
     const STATUS = [
-        STATUS_UNPROCESSED => 'Chưa xử lý',
-        STATUS_PROCESSING => 'Đang xử lý',
-        STATUS_PROCESSED => 'Đã xử lý'
+        'Unprocessed' => 'Chưa xử lý',
+        'Processing' => 'Đang xử lý',
+        'Processed' => 'Đã xử lý'
     ];
 }

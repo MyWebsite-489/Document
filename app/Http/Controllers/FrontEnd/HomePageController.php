@@ -21,12 +21,12 @@ class HomePageController extends Controller
             'thumbnail',
             'number_view',
             'updated_at'
-        )->where('status', STATUS_PUBLISH)
+        )->where('status', 'publish')
             ->orderBy('updated_at', 'DESC')
             ->paginate(12);
 
         $sliders = Slider::select('id', 'name', 'href', 'description', 'thumbnail')
-            ->where('status', STATUS_PUBLISH)
+            ->where('status', 'publish')
             ->orderBy('updated_at', 'DESC')->get();
         return view('frontend.homePage.index', compact('posts', 'sliders'));
     }
@@ -46,7 +46,7 @@ class HomePageController extends Controller
                 'phone' => $request->input('phone'),
                 'email' => $request->input('email'),
                 'content' => $request->input('content'),
-                'status' => STATUS_UNPROCESSED,
+                'status' => 'Unprocessed',
             ]);
             DB::commit();
             return redirect()->route('frontend.homePage.index');

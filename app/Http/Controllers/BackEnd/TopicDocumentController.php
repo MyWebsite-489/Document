@@ -9,14 +9,16 @@ use Illuminate\Support\Facades\DB;
 
 class TopicDocumentController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $topics = TopicDocument::select('id', 'name', 'status', 'created_at')
             ->where('name', 'LIKE', '%' . $request->search . '%')
             ->orderBy('created_at', 'DESC')
-            ->paginate(DEFAULT_PAGINATE);
+            ->paginate(10);
         return view('backend.topic-document.index', compact('topics'));
     }
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         try {
             // add new Topic
             TopicDocument::create([

@@ -23,8 +23,8 @@ class TopicDocument extends Model
         'updated_at',
     ];
     const STATUS = [
-        1 => STATUS_PUBLISH,
-        2 => STATUS_DRAFT,
+        1 => 'publish',
+        2 => 'draft',
     ];
     public function postChidDocument()
     {

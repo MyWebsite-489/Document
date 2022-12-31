@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('email', 120)->unique();
             $table->string('password', 255);
             $table->string('fullname', 120);
-            $table->enum('role', [ROLE_ADMIN, ROLE_MANAGE]);
-            $table->enum('status', [STATUS_PUBLISH, STATUS_DRAFT]);
+            $table->enum('role', ["admin", "manage"]);
+            $table->enum('status', ['publish', 'draft']);
             $table->timestamps();
             $table->softDeletes();
         });

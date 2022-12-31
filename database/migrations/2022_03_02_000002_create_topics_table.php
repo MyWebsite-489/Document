@@ -20,7 +20,7 @@ class CreateTopicsTable extends Migration
             $table->string('description', 255);
             $table->string('thumbnail', 255)->nullable();
             $table->unsignedBigInteger('user_id')->index()->nullable();
-            $table->enum('status', [STATUS_PUBLISH, STATUS_DRAFT]);
+            $table->enum('status', ['publish', 'draft']);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')

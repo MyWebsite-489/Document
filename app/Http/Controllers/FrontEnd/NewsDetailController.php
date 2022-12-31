@@ -44,7 +44,7 @@ class NewsDetailController extends Controller
                 'updated_at'
             )
                 ->where('id', '!=', $post->id)
-                ->where('status', STATUS_PUBLISH)
+                ->where('status', 'publish')
                 ->orderBy('number_view', 'DESC')
                 ->take(5)->get();
 
@@ -60,7 +60,7 @@ class NewsDetailController extends Controller
                     $q->whereIn('id', $topicIds);
                 })
                 ->where('id', '!=', $post->id)
-                ->where('status', STATUS_PUBLISH)
+                ->where('status', 'publish')
                 ->orderBy('number_view', 'DESC')
                 ->take(5)->get();
 

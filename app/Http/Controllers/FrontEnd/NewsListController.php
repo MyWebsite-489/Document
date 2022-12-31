@@ -23,7 +23,7 @@ class NewsListController extends Controller
             'thumbnail',
             'number_view',
             'updated_at'
-        )->where('status', STATUS_PUBLISH)
+        )->where('status', 'publish')
             ->orderBy('updated_at', 'DESC')
             ->paginate(12);
         return view('frontend.news.newslist', compact('posts'));

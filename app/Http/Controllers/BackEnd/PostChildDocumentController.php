@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class PostChildDocumentController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $posts = PostChildDocument::select(
             'post_child_documents.id',
             'post_child_documents.name',
@@ -20,13 +21,14 @@ class PostChildDocumentController extends Controller
             'post_child_documents.created_at',
             'topic_documents.name as topic',
         )
-            ->leftJoin('topic_documents', 'topic_documents.id','post_child_documents.topic_document_id')
+            ->leftJoin('topic_documents', 'topic_documents.id', 'post_child_documents.topic_document_id')
             ->where('post_child_documents.name', 'LIKE', '%' . $request->search . '%')
             ->orderBy('post_child_documents.created_at', 'DESC')
-            ->paginate(DEFAULT_PAGINATE);
+            ->paginate(10);
         return view('backend.post-child.index', compact('posts'));
     }
-    public function create() {
+    public function create()
+    {
         $topics = TopicDocument::select(
             'id',
             'name',
@@ -38,7 +40,8 @@ class PostChildDocumentController extends Controller
             ->get();
         return view('backend.post-child.create', compact('topics'));
     }
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         try {
             // add new post
             $newPost = PostChildDocument::create([

@@ -46,8 +46,8 @@ class Topic extends Model
     ];
 
     const STATUS = [
-        STATUS_PUBLISH => STATUS_PUBLISH,
-        STATUS_DRAFT => STATUS_DRAFT,
+        'publish' => 'publish',
+        'draft' => 'draft',
     ];
 
     public function posts()

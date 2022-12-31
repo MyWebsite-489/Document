@@ -27,7 +27,7 @@ class TopicController extends Controller
         $topics = Topic::select('id', 'name', 'description', 'thumbnail', 'status', 'created_at')
             ->where('name', 'LIKE', '%' . $request->search . '%')
             ->orderBy('created_at', 'DESC')
-            ->paginate(DEFAULT_PAGINATE);
+            ->paginate(10);
         return view('backend.topic.index', compact('topics'));
     }
 
