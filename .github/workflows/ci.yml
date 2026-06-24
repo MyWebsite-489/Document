@@ -18,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: write
-      pull-requests: read
 
     steps:
       - name: Checkout
@@ -33,7 +31,6 @@ jobs:
 
       - name: Run PHPCS Scan
         id: phpcs_scan
-        continue-on-error: true
         shell: bash
         run: |
           set +e
@@ -46,72 +43,22 @@ jobs:
 
           status=$?
           cat phpcs-output.txt
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
 
           if [ "$status" -ne 0 ]; then
+            echo "has_errors=true"
             echo "has_errors=true" >> "$GITHUB_OUTPUT"
           else
+            echo "has_errors=false"
             echo "has_errors=false" >> "$GITHUB_OUTPUT"
           fi
 
-          exit "$status"
-
-      - name: Find Existing PHPCS Comment
-        if: always() && github.event_name == 'pull_request'
-        id: find_phpcs_comment
-        uses: peter-evans/find-comment@v3
-        continue-on-error: true
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: "github-actions[bot]"
-          body-includes: "<!-- phpcs-scan-signature -->"
-
-      - name: Prepare PHPCS Failure Comment
-        if: github.event_name == 'pull_request' && steps.phpcs_scan.outputs.has_errors == 'true'
+      - name: Fail Build if PHPCS failed
+        if: always() && steps.phpcs_scan.outputs.has_errors == 'true'
         shell: bash
         run: |
-          {
-            echo "<!-- phpcs-scan-signature -->"
-            echo "### PHPCS Scan Failed"
-            echo
-            echo '```text'
-            head -c 60000 phpcs-output.txt | sed "s/\`\`\`/'''/g"
-            if [ "$(wc -c < phpcs-output.txt)" -gt 60000 ]; then
-              echo
-              echo "...output truncated..."
-            fi
-            echo
-            echo '```'
-          } > phpcs-comment.md
-
-      - name: Create or Update PHPCS Comment
-        if: github.event_name == 'pull_request' && steps.phpcs_scan.outputs.has_errors == 'true'
-        uses: peter-evans/create-or-update-comment@v4
-        continue-on-error: true
-        with:
-          comment-id: ${{ steps.find_phpcs_comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          edit-mode: replace
-          body-path: phpcs-comment.md
-
-      - name: Update PHPCS Comment On Success
-        if: github.event_name == 'pull_request' && steps.phpcs_scan.outputs.has_errors != 'true' && steps.find_phpcs_comment.outputs.comment-id != ''
-        uses: peter-evans/create-or-update-comment@v4
-        continue-on-error: true
-        with:
-          comment-id: ${{ steps.find_phpcs_comment.outputs.comment-id }}
-          edit-mode: replace
-          body: |
-            <!-- phpcs-scan-signature -->
-            ### PHPCS Scan Passed
-
-            All PHPCS formatting issues have been fixed.
-
-      - name: Fail PHPCS Job
-        if: steps.phpcs_scan.outputs.has_errors == 'true'
-        shell: bash
-        run: |
-          echo "::error::PHPCS found coding standard violations. See the Run PHPCS Scan step for details."
-          exit 1
+          cat phpcs-output.txt
+          exit "${{ steps.phpcs_scan.outputs.exit_code }}"
 
   commitlint:
     name: Commit Lint
@@ -119,8 +66,6 @@ jobs:
     if: github.ref != 'refs/heads/master'
     permissions:
       contents: read
-      issues: write
-      pull-requests: read
 
     steps:
       - name: Checkout
@@ -145,6 +90,7 @@ jobs:
 
           status=$?
           cat commitlint-output.txt
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
 
           if [ "$status" -ne 0 ]; then
             echo "is_invalid=true" >> "$GITHUB_OUTPUT"
@@ -152,59 +98,9 @@ jobs:
             echo "is_invalid=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Find Existing Commitlint Comment
-        if: always() && github.event_name == 'pull_request'
-        id: find_commitlint_comment
-        uses: peter-evans/find-comment@v3
-        continue-on-error: true
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: "github-actions[bot]"
-          body-includes: "<!-- commitlint-scan-signature -->"
-
-      - name: Prepare Commitlint Failure Comment
-        if: github.event_name == 'pull_request' && steps.commitlint_scan.outputs.is_invalid == 'true'
+      - name: Fail Build if commitlint failed
+        if: always() && steps.commitlint_scan.outputs.is_invalid == 'true'
         shell: bash
         run: |
-          {
-            echo "<!-- commitlint-scan-signature -->"
-            echo "### Commit Message Lint Failed"
-            echo
-            echo "Commit message does not follow the required convention."
-            echo
-            echo '```text'
-            head -c 60000 commitlint-output.txt | sed "s/\`\`\`/'''/g"
-            if [ "$(wc -c < commitlint-output.txt)" -gt 60000 ]; then
-              echo
-              echo "...output truncated..."
-            fi
-            echo
-            echo '```'
-          } > commitlint-comment.md
-
-      - name: Create or Update Commitlint Comment
-        if: github.event_name == 'pull_request' && steps.commitlint_scan.outputs.is_invalid == 'true'
-        uses: peter-evans/create-or-update-comment@v4
-        continue-on-error: true
-        with:
-          comment-id: ${{ steps.find_commitlint_comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          edit-mode: replace
-          body-path: commitlint-comment.md
-
-      - name: Update Commitlint Comment On Success
-        if: github.event_name == 'pull_request' && steps.commitlint_scan.outputs.is_invalid != 'true' && steps.find_commitlint_comment.outputs.comment-id != ''
-        uses: peter-evans/create-or-update-comment@v4
-        continue-on-error: true
-        with:
-          comment-id: ${{ steps.find_commitlint_comment.outputs.comment-id }}
-          edit-mode: replace
-          body: |
-            <!-- commitlint-scan-signature -->
-            ### Commit Message Lint Passed
-
-            Commit message is valid.
-
-      - name: Fail Build if commitlint failed
-        if: steps.commitlint_scan.outputs.is_invalid == 'true'
-        run: exit 1
+          cat commitlint-output.txt
+          exit "${{ steps.commitlint_scan.outputs.exit_code }}"
