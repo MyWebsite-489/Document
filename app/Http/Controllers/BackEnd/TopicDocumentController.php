@@ -37,7 +37,7 @@ class TopicDocumentController extends Controller
         if ($topic === null) {
             return response()->json(['success' => false, 'errors' => 'chủ đề ko tồn tại!'], 400);
         }
-        return response()->json(['success' => true, 'topic' => $topic], 200);;
+        return response()->json(['success' => true, 'topic' => $topic], 200);
     }
     public function update(Request $request, $id)
     {

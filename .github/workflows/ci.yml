@@ -104,3 +104,4 @@ jobs:
         run: |
           cat commitlint-output.txt
           exit "${{ steps.commitlint_scan.outputs.exit_code }}"
+

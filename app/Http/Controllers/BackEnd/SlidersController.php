@@ -59,10 +59,13 @@ class SlidersController extends Controller
             if ($request->hasFile('thumbnail')) {
                 // save the thumbnail to storage and return the path
                 $file = $request->file('thumbnail');
-                $thumbnail = Common::uploadImage($file, 'sliders/' . Str::random(25) . '.' . $file->getClientOriginalExtension());
+                $thumbnail = Common::uploadImage(
+                    $file,
+                    'sliders/' . Str::random(25) . '.' . $file->getClientOriginalExtension()
+                );
                 // update new path to db
                 $request->thumbnail = 'storage/' . $thumbnail;
-            };
+            }
             $href = '';
             if (empty($request->input('href'))) {
                 $href = '';
@@ -107,7 +110,7 @@ class SlidersController extends Controller
         if ($slider === null) {
             return response()->json(['success' => false, 'errors' => 'slider ko tồn tại!'], 400);
         }
-        return response()->json(['success' => true, 'slider' => $slider], 200);;
+        return response()->json(['success' => true, 'slider' => $slider], 200);
     }
 
     /**
@@ -120,7 +123,6 @@ class SlidersController extends Controller
     {
         DB::beginTransaction();
         try {
-
             $sliderCheck = Slider::select(
                 'id',
                 'name',
@@ -171,10 +173,14 @@ class SlidersController extends Controller
             if ($request->hasFile('thumbnail')) {
                 // save the thumbnail to storage and return the path
                 $file = $request->file('thumbnail');
-                $thumbnail = Common::uploadImage($file, 'sliders/' . Str::random(25) . '.' . $file->getClientOriginalExtension(), $slider->thumbnail);
+                $thumbnail = Common::uploadImage(
+                    $file,
+                    'sliders/' . Str::random(25) . '.' . $file->getClientOriginalExtension(),
+                    $slider->thumbnail
+                );
                 // update new path to db
                 $slider->thumbnail = 'storage/' . $thumbnail;
-            };
+            }
             $slider->save();
             DB::commit();
             return response()->json(['success' => true, 'slider' => $slider], 200);

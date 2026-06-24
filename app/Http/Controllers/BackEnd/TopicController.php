@@ -60,10 +60,13 @@ class TopicController extends Controller
             if ($request->hasFile('thumbnail')) {
                 // save the thumbnail to storage and return the path
                 $file = $request->file('thumbnail');
-                $thumbnail = Common::uploadImage($file, 'topics/' . Str::random(25) . '.' . $file->getClientOriginalExtension());
+                $thumbnail = Common::uploadImage(
+                    $file,
+                    'topics/' . Str::random(25) . '.' . $file->getClientOriginalExtension()
+                );
                 // update new path to db
                 $request->thumbnail = 'storage/' . $thumbnail;
-            };
+            }
             // add new Topic
             Topic::create([
                 'name' => $request->input('name'),
@@ -101,7 +104,7 @@ class TopicController extends Controller
         if ($topic === null) {
             return response()->json(['success' => false, 'errors' => 'chủ đề ko tồn tại!'], 400);
         }
-        return response()->json(['success' => true, 'topic' => $topic], 200);;
+        return response()->json(['success' => true, 'topic' => $topic], 200);
     }
 
     /**
@@ -114,7 +117,6 @@ class TopicController extends Controller
     {
         DB::beginTransaction();
         try {
-
             $topicCheck = Topic::select(
                 'id',
                 'name',
@@ -161,10 +163,14 @@ class TopicController extends Controller
             if ($request->hasFile('thumbnail')) {
                 // save the thumbnail to storage and return the path
                 $file = $request->file('thumbnail');
-                $thumbnail = Common::uploadImage($file, 'topics/' . Str::random(25) . '.' . $file->getClientOriginalExtension(), $topic->thumbnail);
+                $thumbnail = Common::uploadImage(
+                    $file,
+                    'topics/' . Str::random(25) . '.' . $file->getClientOriginalExtension(),
+                    $topic->thumbnail
+                );
                 // update new path to db
                 $topic->thumbnail = 'storage/' . $thumbnail;
-            };
+            }
             if (!empty($topic)) {
                 $topic->save();
                 DB::commit();
