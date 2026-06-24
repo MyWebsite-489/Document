@@ -1,13 +1,13 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - "**"
   pull_request:
     branches:
       - "**"
-  workflow_dispatch:
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   contents: read
@@ -33,13 +33,15 @@ jobs:
 
       - name: Run PHPCS Scan
         id: phpcs_scan
+        continue-on-error: true
         shell: bash
         run: |
           set +e
 
-          phpcs --standard=PSR2 app \
-            --ignore=/app/Http/Middleware/TrustProxies.php \
-            --ignore=/app/Console/Kernel.php \
+          phpcs \
+            --standard=PSR2 \
+            --ignore='*/app/Http/Middleware/TrustProxies.php,*/app/Console/Kernel.php' \
+            app \
             > phpcs-output.txt 2>&1
 
           status=$?
@@ -50,6 +52,8 @@ jobs:
           else
             echo "has_errors=false" >> "$GITHUB_OUTPUT"
           fi
+
+          exit "$status"
 
       - name: Find Existing PHPCS Comment
         if: always() && github.event_name == 'pull_request'
@@ -102,9 +106,12 @@ jobs:
 
             All PHPCS formatting issues have been fixed.
 
-      - name: Fail Build if PHPCS failed
+      - name: Fail PHPCS Job
         if: steps.phpcs_scan.outputs.has_errors == 'true'
-        run: exit 1
+        shell: bash
+        run: |
+          echo "::error::PHPCS found coding standard violations. See the Run PHPCS Scan step for details."
+          exit 1
 
   commitlint:
     name: Commit Lint
