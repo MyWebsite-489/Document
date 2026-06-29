@@ -11,7 +11,7 @@ class TopicDocumentController extends Controller
 {
     public function index(Request $request)
     {
-        $topics =     TopicDocument::select('id', 'name', 'status', 'created_at')
+        $topics = TopicDocument::select('id', 'name', 'status', 'created_at')
             ->where('name', 'LIKE', '%' . $request->search . '%')
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
@@ -23,6 +23,7 @@ class TopicDocumentController extends Controller
             // add new Topic
             TopicDocument::create([
                 'name' => $request->name,
+
                 'status' => $request->status,
             ]);
             return response()->json(['success' => true], 201);
@@ -34,7 +35,7 @@ class TopicDocumentController extends Controller
     {
         $topic = TopicDocument::findOrFail($id);
         // topic not exist
-        if ($topic === null) {
+        if ( $topic === null) {
             return response()->json(['success' => false, 'errors' => 'chủ đề ko tồn tại!'], 400);
         }
         return response()->json(['success' => true, 'topic' => $topic], 200);
