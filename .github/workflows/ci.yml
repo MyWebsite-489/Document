@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -53,6 +54,28 @@ jobs:
             echo "has_errors=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Prepare PHPCS PR comment
+        if: always() && steps.phpcs_scan.outputs.has_errors == 'true'
+        shell: bash
+        run: |
+          {
+            echo "## PHPCS failed"
+            echo
+            echo "Commit: \`${{ github.event.pull_request.head.sha }}\`"
+            echo
+            echo '```text'
+            cat phpcs-output.txt
+            echo '```'
+          } > phpcs-comment.md
+
+      - name: Comment PHPCS result
+        if: always() && steps.phpcs_scan.outputs.has_errors == 'true'
+        uses: mshick/add-pr-comment@v3
+        with:
+          message-id: ci-phpcs
+          message-path: phpcs-comment.md
+          refresh-message-position: true
+
       - name: Fail Build if PHPCS failed
         if: always() && steps.phpcs_scan.outputs.has_errors == 'true'
         shell: bash
@@ -66,6 +89,7 @@ jobs:
     if: github.ref != 'refs/heads/master'
     permissions:
       contents: read
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -98,10 +122,37 @@ jobs:
             echo "is_invalid=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Prepare commitlint PR comment
+        if: always() && steps.commitlint_scan.outputs.is_invalid == 'true'
+        shell: bash
+        run: |
+          {
+            echo "## Commit lint failed"
+            echo
+            echo "Latest commit message:"
+            echo
+            echo '```text'
+            git log -1 --pretty=%B
+            echo '```'
+            echo
+            echo "commitlint output:"
+            echo
+            echo '```text'
+            cat commitlint-output.txt
+            echo '```'
+          } > commitlint-comment.md
+
+      - name: Comment commitlint result
+        if: always() && steps.commitlint_scan.outputs.is_invalid == 'true'
+        uses: mshick/add-pr-comment@v3
+        with:
+          message-id: ci-commitlint
+          message-path: commitlint-comment.md
+          refresh-message-position: true
+
       - name: Fail Build if commitlint failed
         if: always() && steps.commitlint_scan.outputs.is_invalid == 'true'
         shell: bash
         run: |
           cat commitlint-output.txt
           exit "${{ steps.commitlint_scan.outputs.exit_code }}"
-

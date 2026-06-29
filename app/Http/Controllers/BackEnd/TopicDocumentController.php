@@ -11,7 +11,7 @@ class TopicDocumentController extends Controller
 {
     public function index(Request $request)
     {
-        $topics = TopicDocument::select('id', 'name', 'status', 'created_at')
+        $topics =     TopicDocument::select('id', 'name', 'status', 'created_at')
             ->where('name', 'LIKE', '%' . $request->search . '%')
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
