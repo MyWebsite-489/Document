@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 

@@ -23,6 +23,7 @@ class TopicDocumentController extends Controller
             // add new Topic
             TopicDocument::create([
                 'name' => $request->name,
+
                 'status' => $request->status,
             ]);
             return response()->json(['success' => true], 201);
@@ -34,10 +35,10 @@ class TopicDocumentController extends Controller
     {
         $topic = TopicDocument::findOrFail($id);
         // topic not exist
-        if ($topic === null) {
+        if ( $topic === null) {
             return response()->json(['success' => false, 'errors' => 'chủ đề ko tồn tại!'], 400);
         }
-        return response()->json(['success' => true, 'topic' => $topic], 200);;
+        return response()->json(['success' => true, 'topic' => $topic], 200);
     }
     public function update(Request $request, $id)
     {

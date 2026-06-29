@@ -125,7 +125,10 @@ class PostController extends Controller
             if ($request->hasFile('thumbnail')) {
                 // save the thumbnail to storage and return the path
                 $file = $request->file('thumbnail');
-                $thumbnail = Common::uploadImage($file, 'posts/' . Str::random(25) . '.' . $file->getClientOriginalExtension());
+                $thumbnail = Common::uploadImage(
+                    $file,
+                    'posts/' . Str::random(25) . '.' . $file->getClientOriginalExtension()
+                );
                 // update new path to db
                 $request->thumbnail = 'storage/' . $thumbnail;
             }
@@ -176,7 +179,10 @@ class PostController extends Controller
             if ($postCheck != null) {
                 $validator = Validator::make([], []);
                 $validator->errors()->add('name', 'Tên bài viết đã tồn tại!');
-                return redirect()->route('admin.post.edit', ['id' => $request->id])->withErrors($validator)->withInput();
+                return redirect()
+                    ->route('admin.post.edit', ['id' => $request->id])
+                    ->withErrors($validator)
+                    ->withInput();
             }
 
             // get the post to update
@@ -199,10 +205,14 @@ class PostController extends Controller
             if ($request->hasFile('thumbnail')) {
                 // save the thumbnail to storage and return the path
                 $file = $request->file('thumbnail');
-                $thumbnail = Common::uploadImage($file, 'posts/' . Str::random(25) . '.' . $file->getClientOriginalExtension(), $post->thumbnail);
+                $thumbnail = Common::uploadImage(
+                    $file,
+                    'posts/' . Str::random(25) . '.' . $file->getClientOriginalExtension(),
+                    $post->thumbnail
+                );
                 // update new path to db
                 $post->thumbnail = 'storage/' . $thumbnail;
-            };
+            }
             $post->save();
             $post->topics()->sync($request->topics);
             DB::commit();
